@@ -380,7 +380,17 @@ $btnRemoveActiveObject.on('click', function() {
 });
 
 $btnCrop.on('click', function() {
-    imageEditor.startDrawingMode('CROPPER');
+    //imageEditor.startDrawingMode('CROPPER');
+    const {height, width} = imageEditor.getCanvasSize();
+    const ajwh = (height > width ? width : height) / 2;
+    imageEditor.startDrawingMode('CROPPER', {
+        lockProportion: true,
+        lockUniScaling: true,
+        top: (height - ajwh) / 2,
+        left: (width - ajwh) / 2,
+        width: ajwh,
+        height: ajwh
+    });
     $displayingSubMenu.hide();
     $displayingSubMenu = $cropSubMenu.show();
 });

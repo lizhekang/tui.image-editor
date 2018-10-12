@@ -317,15 +317,20 @@ const Cropzone = fabric.util.createClass(fabric.Rect, /** @lends Cropzone.protot
         const bottom = this.getHeight() + this.top,
             right = this.getWidth() + this.left,
             top = clamp(y, 0, bottom - 1), // 0 <= top <= (bottom - 1)
-            left = clamp(x, 0, right - 1); // 0 <= left <= (right - 1)
+            left = clamp(x, 0, right - 1), // 0 <= left <= (right - 1)
+            width = right - left,
+            height = bottom - top;
 
-        // When scaling "Top-Left corner": It fixes right and bottom coordinates
-        return {
+        const result = {
             top,
             left,
-            width: right - left,
-            height: bottom - top
+            width,
+            height
         };
+
+        // When scaling "Top-Left corner": It fixes right and bottom coordinates
+
+        return result;
     },
 
     /**
@@ -340,10 +345,14 @@ const Cropzone = fabric.util.createClass(fabric.Rect, /** @lends Cropzone.protot
         const {left, top} = this;
 
         // When scaling "Bottom-Right corner": It fixes left and top coordinates
-        return {
-            width: clamp(x, (left + 1), maxX) - left, // (width = x - left), (left + 1 <= x <= maxX)
-            height: clamp(y, (top + 1), maxY) - top // (height = y - top), (top + 1 <= y <= maxY)
+        const width = clamp(x, (left + 1), maxX) - left; // (width = x - left), (left + 1 <= x <= maxX)
+        const height = clamp(y, (top + 1), maxY) - top; // (height = y - top), (top + 1 <= y <= maxY)
+        const result = {
+            width,
+            height
         };
+
+        return result;
     },
 
     /* eslint-disable complexity */
@@ -355,19 +364,38 @@ const Cropzone = fabric.util.createClass(fabric.Rect, /** @lends Cropzone.protot
      * @private
      */
     _makeScalingSettings(tl, br) {
-        const tlWidth = tl.width;
-        const tlHeight = tl.height;
-        const brHeight = br.height;
-        const brWidth = br.width;
-        const tlLeft = tl.left;
-        const tlTop = tl.top;
+        let tlWidth = tl.width;
+        let tlHeight = tl.height;
+        let brHeight = br.height;
+        let brWidth = br.width;
+        let tlLeft = tl.left;
+        let tlTop = tl.top;
         let settings;
 
         switch (this.__corner) {
             case CORNER_TYPE_TOP_LEFT:
+                if (this.options.lockProportion) {
+                    const ajwh = tl.width < tl.height ? tl.width : tl.height;
+
+                    if (ajwh === tl.width) {
+                        tl.top += tl.height - tl.width;
+                    } else {
+                        tl.left += tl.width - tl.height;
+                    }
+                    tl.width = ajwh;
+                    tl.height = ajwh;
+                }
                 settings = tl;
                 break;
             case CORNER_TYPE_TOP_RIGHT:
+                if (this.options.lockProportion) {
+                    const ajwh = brWidth > tlHeight ? tlHeight : brWidth;
+                    if (ajwh === brWidth) {
+                        tlTop += tlHeight - brWidth;
+                    }
+                    tlHeight = ajwh;
+                    brWidth = ajwh;
+                }
                 settings = {
                     width: brWidth,
                     height: tlHeight,
@@ -375,6 +403,14 @@ const Cropzone = fabric.util.createClass(fabric.Rect, /** @lends Cropzone.protot
                 };
                 break;
             case CORNER_TYPE_BOTTOM_LEFT:
+                if (this.options.lockProportion) {
+                    const ajwh = tlWidth > brHeight ? brHeight : tlWidth;
+                    if (ajwh === brHeight) {
+                        tlLeft += tlWidth - brHeight;
+                    }
+                    tlWidth = ajwh;
+                    brHeight = ajwh;
+                }
                 settings = {
                     width: tlWidth,
                     height: brHeight,
@@ -382,26 +418,35 @@ const Cropzone = fabric.util.createClass(fabric.Rect, /** @lends Cropzone.protot
                 };
                 break;
             case CORNER_TYPE_BOTTOM_RIGHT:
+                if (this.options.lockProportion) {
+                    const ajhw = br.height > br.width ? br.width : br.height;
+                    br.height = ajhw;
+                    br.width = ajhw;
+                }
                 settings = br;
                 break;
             case CORNER_TYPE_MIDDLE_LEFT:
+                // TODO: lockProportion
                 settings = {
                     width: tlWidth,
                     left: tlLeft
                 };
                 break;
             case CORNER_TYPE_MIDDLE_TOP:
+                // TODO: lockProportion
                 settings = {
                     height: tlHeight,
                     top: tlTop
                 };
                 break;
             case CORNER_TYPE_MIDDLE_RIGHT:
+                // TODO: lockProportion
                 settings = {
                     width: brWidth
                 };
                 break;
             case CORNER_TYPE_MIDDLE_BOTTOM:
+                // TODO: lockProportion
                 settings = {
                     height: brHeight
                 };

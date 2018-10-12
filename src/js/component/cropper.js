@@ -65,8 +65,10 @@ class Cropper extends Component {
 
     /**
      * Start cropping
+     * @param {Object} options - params for setting
      */
-    start() {
+    start(options) {
+        this.options = options;
         if (this._cropzone) {
             return;
         }
@@ -76,7 +78,7 @@ class Cropper extends Component {
             obj.evented = false;
         });
 
-        this._cropzone = new Cropzone({
+        this._cropzone = new Cropzone(Object.assign({
             left: -10,
             top: -10,
             width: 1,
@@ -89,7 +91,7 @@ class Cropper extends Component {
             hasBorders: false,
             lockScalingFlip: true,
             lockRotation: true
-        }, this.graphics.cropSelectionStyle);
+        }, options), this.graphics.cropSelectionStyle);
 
         canvas.deactivateAll();
         canvas.add(this._cropzone);
@@ -186,7 +188,7 @@ class Cropper extends Component {
         let width = clamp(x, startX, canvasWidth) - left; // (startX <= x(mouse) <= canvasWidth) - left
         let height = clamp(y, startY, canvasHeight) - top; // (startY <= y(mouse) <= canvasHeight) - top
 
-        if (this._withShiftKey) { // make fixed ratio cropzone
+        if (this.options.lockProportion || this._withShiftKey) { // make fixed ratio cropzone
             if (width > height) {
                 height = width;
             } else if (height > width) {

@@ -21,11 +21,12 @@ class CropperDrawingMode extends DrawingMode {
     /**
     * start this drawing mode
     * @param {Graphics} graphics - Graphics instance
+    * @param {Object} options - Params options
     * @override
     */
-    start(graphics) {
+    start(graphics, options) {
         const cropper = graphics.getComponent(components.CROPPER);
-        cropper.start();
+        cropper.start(options);
     }
 
     /**
