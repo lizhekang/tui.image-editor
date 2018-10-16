@@ -12,6 +12,7 @@ import Blur from '../extension/blur';
 import Sharpen from '../extension/sharpen';
 import Emboss from '../extension/emboss';
 import ColorFilter from '../extension/colorFilter';
+import OldMaker from '../extension/oldMaker';
 
 const {rejectMessages} = consts;
 const {filters} = fabric.Image;
@@ -20,6 +21,7 @@ filters.Blur = Blur;
 filters.Sharpen = Sharpen;
 filters.Emboss = Emboss;
 filters.ColorFilter = ColorFilter;
+filters.OldMaker = OldMaker;
 
 /**
  * Filter

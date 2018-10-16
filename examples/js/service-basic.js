@@ -54,10 +54,12 @@ var $inputCheckInvert = $('#input-check-invert');
 var $inputCheckSepia = $('#input-check-sepia');
 var $inputCheckSepia2 = $('#input-check-sepia2');
 var $inputCheckBlur = $('#input-check-blur');
+var $inputCheckOld = $('#input-check-old');
 var $inputCheckSharpen = $('#input-check-sharpen');
 var $inputCheckEmboss = $('#input-check-emboss');
 var $inputCheckRemoveWhite = $('#input-check-remove-white');
 var $inputRangeRemoveWhiteThreshold = $('#input-range-remove-white-threshold');
+var $inputRangeOldPercent = $('#input-range-old-percent');
 var $inputRangeRemoveWhiteDistance = $('#input-range-remove-white-distance');
 var $inputCheckBrightness = $('#input-check-brightness');
 var $inputRangeBrightnessValue = $('#input-range-brightness-value');
@@ -721,6 +723,7 @@ $btnImageFilter.on('click', function() {
         'sepia': $inputCheckSepia,
         'sepia2': $inputCheckSepia2,
         'blur': $inputCheckBlur,
+        'oldMaker': $inputCheckOld,
         'shapren': $inputCheckSharpen,
         'emboss': $inputCheckEmboss,
         'removeWhite': $inputCheckRemoveWhite,
@@ -792,6 +795,12 @@ $inputCheckBlur.on('change', function() {
     applyOrRemoveFilter(this.checked, 'Blur', null);
 });
 
+$inputCheckOld.on('change', function() {
+    applyOrRemoveFilter(this.checked, 'oldMaker', {
+        percent: parseInt($inputRangeOldPercent.val(), 10)
+    });
+});
+
 $inputCheckSharpen.on('change', function() {
     applyOrRemoveFilter(this.checked, 'Sharpen', null);
 });
@@ -810,6 +819,12 @@ $inputCheckRemoveWhite.on('change', function() {
 $inputRangeRemoveWhiteThreshold.on('change', function() {
     applyOrRemoveFilter($inputCheckRemoveWhite.is(':checked'), 'removeWhite', {
         threshold: parseInt(this.value, 10)
+    });
+});
+
+$inputRangeOldPercent.on('change', function() {
+    applyOrRemoveFilter($inputCheckOld.is(':checked'), 'oldMaker', {
+        percent: parseInt(this.value, 10)
     });
 });
 
@@ -934,7 +949,6 @@ $inputRangeColorFilterValue.on('change', function() {
 
 // Load sample image
 imageEditor.loadImageFromURL('img/sampleImage.jpg', 'SampleImage').then(sizeValue => {
-    console.log(sizeValue);
     imageEditor.clearUndoStack();
 });
 
