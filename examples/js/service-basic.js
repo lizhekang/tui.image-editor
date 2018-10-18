@@ -391,7 +391,14 @@ $btnCrop.on('click', function() {
         top: (height - ajwh) / 2,
         left: (width - ajwh) / 2,
         width: ajwh,
-        height: ajwh
+        height: ajwh,
+        cornerStyle: 'circle',
+        cornerSize: 20,
+        cornerColor: '#fff',
+        cornerStrokeColor: '#fff',
+        transparentCorners: false,
+        lineWidth: 3,
+        borderColor: '#fff'
     });
     $displayingSubMenu.hide();
     $displayingSubMenu = $cropSubMenu.show();

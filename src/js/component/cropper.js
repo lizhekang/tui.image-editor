@@ -68,7 +68,7 @@ class Cropper extends Component {
      * @param {Object} options - params for setting
      */
     start(options) {
-        this.options = options;
+        this.options = options || {};
         if (this._cropzone) {
             return;
         }
