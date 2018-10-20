@@ -2,7 +2,7 @@
  * @author NHN Ent. FE Development Team <dl_javascript@nhnent.com>
  * @fileoverview Text module
  */
-import fabric from 'fabric/dist/fabric.require';
+import fabric from 'fabric.upgrade/dist/fabric.require';
 import snippet from 'tui-code-snippet';
 import Promise from 'core-js/library/es6/promise';
 import Component from '../interface/component';
@@ -13,6 +13,11 @@ const events = consts.eventNames;
 
 const defaultStyles = {
     fill: '#000000',
+    cornerSize: 24,
+    cornerStyle: 'editor',
+    hasRotatingPoint: false,
+    borderColor: '#fff',
+    borderLineWidth: 2,
     left: 0,
     top: 0
 };
@@ -225,6 +230,8 @@ class Text extends Component {
             if (options.styles) {
                 styles = snippet.extend(styles, options.styles);
             }
+            styles.cornerSize = 48;
+            console.log(styles);
 
             if (this.useItext) {
                 newText = new fabric.IText(text, styles);
@@ -233,10 +240,11 @@ class Text extends Component {
                     originY: 'top'
                 });
             } else {
+                console.log(3333);
                 newText = new fabric.Text(text, styles);
             }
 
-            newText.set(selectionStyle);
+            //newText.set(selectionStyle);
             newText.on({
                 mouseup: this._onFabricMouseUp.bind(this)
             });

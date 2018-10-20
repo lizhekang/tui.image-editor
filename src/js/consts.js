@@ -105,9 +105,10 @@ module.exports = {
      */
     fObjectOptions: {
         SELECTION_STYLE: {
-            borderColor: 'red',
-            cornerColor: 'green',
-            cornerSize: 10,
+            borderColor: '#fff',
+            cornerColor: 'yellow',
+            cornerStyle: 'editor',
+            hasRotatingPoint: false,
             originX: 'center',
             originY: 'center',
             transparentCorners: false

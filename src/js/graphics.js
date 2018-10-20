@@ -4,7 +4,7 @@
  */
 import snippet from 'tui-code-snippet';
 import Promise from 'core-js/library/es6/promise';
-import fabric from 'fabric/dist/fabric.require';
+import fabric from 'fabric.upgrade/dist/fabric.require';
 import ImageLoader from './component/imageLoader';
 import Cropper from './component/cropper';
 import Flip from './component/flip';
@@ -146,6 +146,7 @@ class Graphics {
             onObjectMoved: this._onObjectMoved.bind(this),
             onObjectScaled: this._onObjectScaled.bind(this),
             onObjectSelected: this._onObjectSelected.bind(this),
+            onObjectRemove: this._onObjectRemove.bind(this),
             onPathCreated: this._onPathCreated.bind(this),
             onSelectionCleared: this._onSelectionCleared.bind(this),
             onSelectionCreated: this._onSelectionCreated.bind(this)
@@ -894,6 +895,7 @@ class Graphics {
             'object:moving': handler.onObjectMoved,
             'object:scaling': handler.onObjectScaled,
             'object:selected': handler.onObjectSelected,
+            'object:remove': handler.onObjectRemove,
             'path:created': handler.onPathCreated,
             'selection:cleared': handler.onSelectionCleared,
             'selection:created': handler.onSelectionCreated
@@ -933,6 +935,13 @@ class Graphics {
         const obj = fEvent.target;
 
         this._removeFabricObject(stamp(obj));
+    }
+
+    _onObjectRemove(fEvent) {
+        // TODO: fEvent.target需要修复
+        const obj = this._canvas.getActiveObject() || fEvent.target;
+
+        this._canvas.remove(obj);
     }
 
     /**
