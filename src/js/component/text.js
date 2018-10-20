@@ -240,16 +240,16 @@ class Text extends Component {
                     originY: 'top'
                 });
             } else {
-                console.log(3333);
                 newText = new fabric.Text(text, styles);
             }
 
-            //newText.set(selectionStyle);
+            newText.set(selectionStyle);
             newText.on({
                 mouseup: this._onFabricMouseUp.bind(this)
             });
 
-            canvas.add(newText);
+            // TODO: 确认这里的功能
+            // canvas.add(newText);
 
             if (!canvas.getActiveObject()) {
                 canvas.setActiveObject(newText);
