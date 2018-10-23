@@ -46,15 +46,22 @@ class FreeDrawing extends Component {
      * @param {{width: ?number, color: ?string}} [setting] - Brush width & color
      */
     setBrush(setting) {
-        const brush = this.getCanvas().freeDrawingBrush;
-
         setting = setting || {};
+        const isMosaic = setting.mosaic;
+        const brush = isMosaic ? this.getCanvas().MosaicDrawingBrush : this.getCanvas().freeDrawingBrush;
+
+        if (isMosaic) {
+            brush.blocksize = setting.blocksize || 10;
+        }
+
         this.width = setting.width || this.width;
         if (setting.color) {
             this.oColor = new fabric.Color(setting.color);
         }
         brush.width = this.width;
         brush.color = this.oColor.toRgba();
+
+        this.getCanvas().freeDrawingBrush = brush;
     }
 
     /**

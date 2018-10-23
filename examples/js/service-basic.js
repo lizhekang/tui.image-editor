@@ -110,7 +110,7 @@ var imageEditor = new tui.ImageEditor('.tui-image-editor', {
         rotatingPointOffset: 70
     }
 });
-console.log(imageEditor);
+
 // Color picker for free drawing
 var brushColorpicker = tui.component.colorpicker.create({
     container: $('#tui-brush-color-picker')[0],
@@ -532,6 +532,10 @@ $selectLine.on('change', function() {
 
     imageEditor.stopDrawingMode();
     if (mode === 'freeDrawing') {
+        imageEditor.startDrawingMode('FREE_DRAWING', settings);
+    } else if(mode === 'mosaicDrawing') {
+        settings.mosaic = true;
+        settings.blocksize = 10;
         imageEditor.startDrawingMode('FREE_DRAWING', settings);
     } else {
         imageEditor.startDrawingMode('LINE_DRAWING', settings);
