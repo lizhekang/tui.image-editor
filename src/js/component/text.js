@@ -257,7 +257,6 @@ class Text extends Component {
                 mouseup: this._onFabricMouseUp.bind(this)
             });
 
-            // TODO: 确认这里的功能
             canvas.add(newText);
 
             if (!canvas.getActiveObject()) {
