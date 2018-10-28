@@ -939,12 +939,11 @@ class Graphics {
 
     /**
      * "object:removed" canvas event handler
-     * @param {{target: fabric.Object, e: MouseEvent}} fEvent - Fabric event
+     * @param {Object} target - Fabric event
      * @private
      */
-    _onObjectRemove(fEvent) {
-        const obj = fEvent.target;
-        this.fire(events.OBJECT_REMOVE, obj);
+    _onObjectRemove(target) {
+        this.fire(events.OBJECT_REMOVE, target);
     }
 
     _onObjectRotateFix(data) {
