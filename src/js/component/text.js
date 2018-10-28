@@ -133,9 +133,11 @@ class Text extends Component {
 
     /**
      * Start input text mode
+     * @param {Object} options - params for setting
      */
-    start() {
+    start(options) {
         const canvas = this.getCanvas();
+        this.options = options;
 
         canvas.selection = false;
         canvas.defaultCursor = 'text';
@@ -230,8 +232,7 @@ class Text extends Component {
             if (options.styles) {
                 styles = snippet.extend(styles, options.styles);
             }
-            styles.cornerSize = 48;
-            console.log(styles);
+            styles.cornerSize = options.conrnerSize || 24;
 
             if (this.useItext) {
                 newText = new fabric.IText(text, styles);
@@ -241,6 +242,14 @@ class Text extends Component {
                 });
             } else {
                 newText = new fabric.Text(text, styles);
+                newText.setControlsVisibility({
+                    br: false,
+                    mb: false,
+                    ml: false,
+                    mr: false,
+                    mt: false,
+                    tl: false
+                });
             }
 
             newText.set(selectionStyle);
@@ -249,7 +258,7 @@ class Text extends Component {
             });
 
             // TODO: 确认这里的功能
-            // canvas.add(newText);
+            canvas.add(newText);
 
             if (!canvas.getActiveObject()) {
                 canvas.setActiveObject(newText);
@@ -301,6 +310,14 @@ class Text extends Component {
             this.getCanvas().renderAll();
             resolve();
         });
+    }
+
+    /**
+     * setText function
+     * @param {string} text new text
+     */
+    setText(text) {
+        this._editingObj.setText(text);
     }
 
     /**
@@ -599,9 +616,9 @@ class Text extends Component {
 
         if (this._isDoubleClick(newClickTime)) {
             if (!this.useItext) {
-                this._changeToEditingMode(fEvent.target);
+                // this._changeToEditingMode(fEvent.target);
             }
-            this.fire(events.TEXT_EDITING); // fire editing text event
+            this.fire(events.TEXT_EDITING, fEvent.target); // fire editing text event with target
         }
 
         this._lastClickTime = newClickTime;

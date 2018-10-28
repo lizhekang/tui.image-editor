@@ -107,7 +107,7 @@ class ImageEditor {
             objectActivated: this._onObjectActivated.bind(this),
             objectMoved: this._onObjectMoved.bind(this),
             objectScaled: this._onObjectScaled.bind(this),
-            createdPath: this._onCreatedPath,
+            // createdPath: this._onCreatedPath,
             addText: this._onAddText.bind(this),
             addObject: this._onAddObject.bind(this),
             addObjectAfter: this._onAddObjectAfter.bind(this),
@@ -116,7 +116,9 @@ class ImageEditor {
             iconCreateResize: this._onIconCreateResize.bind(this),
             iconCreateEnd: this._onIconCreateEnd.bind(this),
             selectionCleared: this._selectionCleared.bind(this),
-            selectionCreated: this._selectionCreated.bind(this)
+            selectionCreated: this._selectionCreated.bind(this),
+            objectRotateFix: this._onObjectRotateFix.bind(this),
+            objectRemove: this._onObjectRemove.bind(this)
         };
 
         this._attachInvokerEvents();
@@ -266,7 +268,9 @@ class ImageEditor {
             'iconCreateEnd': this._handlers.iconCreateEnd,
             'selectionCleared': this._handlers.selectionCleared,
             'selectionCreated': this._handlers.selectionCreated,
-            'addObjectAfter': this._handlers.addObjectAfter
+            'addObjectAfter': this._handlers.addObjectAfter,
+            'objectRotateFix': this._handlers.objectRotateFix,
+            'objectRemove': this._handlers.objectRemove
         });
     }
 
@@ -429,6 +433,32 @@ class ImageEditor {
          * });
          */
         this.fire(events.OBJECT_MOVED, props);
+    }
+
+    _onObjectRotateFix(data) {
+        /**
+         * The event when object is moved
+         * @event ImageEditor#objectMoved
+         * @param {ObjectProps} props - object properties
+         * @example
+         * imageEditor.on('objectRotateFix', function(data) {
+         *     console.log(data);
+         * });
+         */
+        this.fire(events.OBJECT_ROTATE_FIX, data);
+    }
+
+    _onObjectRemove(data) {
+        /**
+         * The event when object is moved
+         * @event ImageEditor#objectMoved
+         * @param {ObjectProps} props - object properties
+         * @example
+         * imageEditor.on('objectRemove', function(data) {
+         *     console.log(data);
+         * });
+         */
+        this.fire(events.OBJECT_REMOVE, data);
     }
 
     /**
@@ -1030,9 +1060,10 @@ class ImageEditor {
 
     /**
      * 'textEditing' event handler
+     * @param {target} target the editing target
      * @private
      */
-    _onTextEditing() {
+    _onTextEditing(target) {
         /**
          * The event which starts to edit text object
          * @event ImageEditor#textEditing
@@ -1041,7 +1072,7 @@ class ImageEditor {
          *     console.log('text editing');
          * });
          */
-        this.fire(events.TEXT_EDITING);
+        this.fire(events.TEXT_EDITING, target);
     }
 
     /**

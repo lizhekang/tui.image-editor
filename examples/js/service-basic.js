@@ -105,6 +105,7 @@ var $selectBlendType = $('[name="select-blend-type"]');
 var imageEditor = new tui.ImageEditor('.tui-image-editor', {
     cssMaxWidth: 700,
     cssMaxHeight: 500,
+    scaleToMax: true,
     selectionStyle: {
         cornerSize: 20,
         rotatingPointOffset: 70
@@ -286,9 +287,21 @@ function applyOrRemoveFilter(applying, type, options) {
         imageEditor.removeFilter(type);
     }
 }
-
+console.log(imageEditor);
 // Attach image editor custom events
 imageEditor.on({
+    objectRemove: function(target) {
+        console.log('remove');
+        imageEditor.removeActiveObject();
+    },
+    textEditing: function(target) {
+        console.log('editing', target);
+        var id = target.__fe_id;
+        imageEditor.changeText(id, 'lalal');
+    },
+    objectRotateFix: function(data) {
+        console.log('fix', data.angle);
+    },
     objectAdded: function(objectProps) {
         console.info(objectProps);
     },
@@ -314,10 +327,11 @@ imageEditor.on({
         }
     },
     addText: function(pos) {
-        imageEditor.addText('Double Click', {
+        imageEditor.addText('双击编辑', {
             position: pos.originPosition
         }).then(objectProps => {
             console.log(objectProps);
+            let text = objectProps;
         });
     },
     objectActivated: function(obj) {
@@ -384,7 +398,7 @@ $btnRemoveActiveObject.on('click', function() {
 $btnCrop.on('click', function() {
     const {height, width} = imageEditor.getCanvasSize();
     const ajwh = (height > width ? width : height) / 2;
-    console.log(width);
+    // console.log(imageEditor._graphics.adjustCanvasDimension(500, 500));
     imageEditor.startDrawingMode('CROPPER', {
         lockProportion: true,
         lockUniScaling: true,

@@ -147,9 +147,9 @@ class Graphics {
             onObjectScaled: this._onObjectScaled.bind(this),
             onObjectSelected: this._onObjectSelected.bind(this),
             onObjectRemove: this._onObjectRemove.bind(this),
+            onObjectRotateFix: this._onObjectRotateFix.bind(this),
             onPathCreated: this._onPathCreated.bind(this),
-            onSelectionCleared: this._onSelectionCleared.bind(this),
-            onSelectionCreated: this._onSelectionCreated.bind(this)
+            onSelectionCleared: this._onSelectionCleared.bind(this)
         };
 
         this._setCanvasElement(element);
@@ -896,9 +896,9 @@ class Graphics {
             'object:scaling': handler.onObjectScaled,
             'object:selected': handler.onObjectSelected,
             'object:remove': handler.onObjectRemove,
+            'object:rotateFix': handler.onObjectRotateFix,
             'path:created': handler.onPathCreated,
-            'selection:cleared': handler.onSelectionCleared,
-            'selection:created': handler.onSelectionCreated
+            'selection:cleared': handler.onSelectionCleared
         });
     }
 
@@ -937,11 +937,18 @@ class Graphics {
         this._removeFabricObject(stamp(obj));
     }
 
+    /**
+     * "object:removed" canvas event handler
+     * @param {{target: fabric.Object, e: MouseEvent}} fEvent - Fabric event
+     * @private
+     */
     _onObjectRemove(fEvent) {
-        // TODO: fEvent.target需要修复
-        const obj = this._canvas.getActiveObject() || fEvent.target;
+        const obj = fEvent.target;
+        this.fire(events.OBJECT_REMOVE, obj);
+    }
 
-        this._canvas.remove(obj);
+    _onObjectRotateFix(data) {
+        this.fire(events.OBJECT_ROTATE_FIX, data);
     }
 
     /**
