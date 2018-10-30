@@ -408,6 +408,7 @@ $btnCrop.on('click', function() {
         height: ajwh,
         cornerStyle: 'cropper',
         cornerSize: 48,
+        cornerWidth: 4,
         cornerColor: '#ffe626',
         cornerStrokeColor: '#fff',
         transparentCorners: false,
