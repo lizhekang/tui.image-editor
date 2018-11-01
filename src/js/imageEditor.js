@@ -1510,6 +1510,10 @@ class ImageEditor {
     setObjectPosition(id, posInfo) {
         return this.execute(commands.SET_OBJECT_POSITION, id, posInfo);
     }
+
+    setObjectPositions(settings) {
+        return this.execute(commands.SET_OBJECT_POSITIONS, settings);
+    }
 }
 
 action.mixin(ImageEditor);
