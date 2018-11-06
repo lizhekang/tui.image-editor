@@ -2,9 +2,10 @@
  * @author NHN Ent. FE Development Team <dl_javascript@nhnent.com>
  * @fileoverview Util
  */
-import {forEach, imagePing} from 'tui-code-snippet';
+import {forEach} from 'tui-code-snippet';
+// import {imagePing} from 'tui-code-snippet';
 const {min, max} = Math;
-let hostnameSent = false;
+// let hostnameSent = false;
 
 module.exports = {
     /**
@@ -122,8 +123,11 @@ module.exports = {
 
     /**
      * send hostname
+     * @returns {null}
      */
     sendHostName() {
+        return null;
+        /*
         const {hostname} = location;
         if (hostnameSent) {
             return;
@@ -138,6 +142,7 @@ module.exports = {
             dp: hostname,
             dh: 'image-editor'
         });
+        */
     },
 
     /**
