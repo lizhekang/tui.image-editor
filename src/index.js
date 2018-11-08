@@ -8,6 +8,7 @@ import './js/command/addImageObject';
 import './js/command/addObject';
 import './js/command/addShape';
 import './js/command/addText';
+import './js/command/addTexts';
 import './js/command/applyFilter';
 import './js/command/changeIconColor';
 import './js/command/changeShape';

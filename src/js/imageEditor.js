@@ -981,6 +981,10 @@ class ImageEditor {
         return this.execute(commands.ADD_TEXT, text, options);
     }
 
+    addTexts(configs) {
+        return this.execute(commands.ADD_TEXTS, configs);
+    }
+
     /**
      * Change contents of selected text object on image
      * @param {number} id - object id

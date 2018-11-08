@@ -40,6 +40,7 @@ module.exports = {
         'ADD_SHAPE': 'addShape',
         'CHANGE_SHAPE': 'changeShape',
         'ADD_TEXT': 'addText',
+        'ADD_TEXTS': 'addTexts',
         'CHANGE_TEXT': 'changeText',
         'CHANGE_TEXT_STYLE': 'changeTextStyle',
         'ADD_IMAGE_OBJECT': 'addImageObject',
