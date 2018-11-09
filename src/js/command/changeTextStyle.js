@@ -39,6 +39,7 @@ const command = {
 
         this.undoData.object = targetObj;
         this.undoData.styles = {};
+        this.undoData.notReset = notReset;
         snippet.forEachOwnProperties(styles, (value, key) => {
             this.undoData.styles[key] = targetObj[key];
         });
@@ -51,9 +52,9 @@ const command = {
      */
     undo(graphics) {
         const textComp = graphics.getComponent(TEXT);
-        const {object: textObj, styles} = this.undoData;
+        const {object: textObj, styles, notReset} = this.undoData;
 
-        return textComp.setStyle(textObj, styles);
+        return textComp.setStyle(textObj, styles, notReset);
     }
 };
 

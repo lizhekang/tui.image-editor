@@ -66,6 +66,8 @@ class ImageEditor {
 
         this.activeObjectId = null;
 
+        this.preventBackspaceDel = typeof options.preventBackspaceDel === 'undefined' ? false : options.preventBackspaceDel;
+
         /**
          * UI instance
          * @type {Ui}
@@ -313,7 +315,8 @@ class ImageEditor {
             this.redo()['catch'](() => {});
         }
 
-        if (((e.keyCode === keyCodes.BACKSPACE || e.keyCode === keyCodes.DEL) && existRemoveObject)) {
+        if (!this.preventBackspaceDel &&
+            ((e.keyCode === keyCodes.BACKSPACE || e.keyCode === keyCodes.DEL) && existRemoveObject)) {
             e.preventDefault();
             this.removeActiveObject();
         }
