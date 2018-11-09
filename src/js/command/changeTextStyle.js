@@ -25,11 +25,13 @@ const command = {
      *     @param {string} [styles.fontWeight] Type of thicker or thinner looking (normal / bold)
      *     @param {string} [styles.textAlign] Type of text align (left / center / right)
      *     @param {string} [styles.textDecoraiton] Type of line (underline / line-throgh / overline)
+     * @param {Boolean} notReset - reset flag
      * @returns {Promise}
      */
-    execute(graphics, id, styles) {
+    execute(graphics, id, styles, notReset) {
         const textComp = graphics.getComponent(TEXT);
         const targetObj = graphics.getObject(id);
+        notReset = typeof notReset === 'undefined' ? false : notReset;
 
         if (!targetObj) {
             return Promise.reject(rejectMessages.noObject);
@@ -41,7 +43,7 @@ const command = {
             this.undoData.styles[key] = targetObj[key];
         });
 
-        return textComp.setStyle(targetObj, styles);
+        return textComp.setStyle(targetObj, styles, notReset);
     },
     /**
      * @param {Graphics} graphics - Graphics instance

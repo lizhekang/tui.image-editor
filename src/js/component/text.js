@@ -294,15 +294,18 @@ class Text extends Component {
      *     @param {string} [styleObj.fontWeight] Type of thicker or thinner looking (normal / bold)
      *     @param {string} [styleObj.textAlign] Type of text align (left / center / right)
      *     @param {string} [styleObj.textDecoraiton] Type of line (underline / line-throgh / overline)
+     * @param {Boolean} notReset - reset flag
      * @returns {Promise}
      */
-    setStyle(activeObj, styleObj) {
+    setStyle(activeObj, styleObj, notReset) {
         return new Promise(resolve => {
-            snippet.forEach(styleObj, (val, key) => {
-                if (activeObj[key] === val) {
-                    styleObj[key] = resetStyles[key] || '';
-                }
-            }, this);
+            if (!notReset) {
+                snippet.forEach(styleObj, (val, key) => {
+                    if (activeObj[key] === val) {
+                        styleObj[key] = resetStyles[key] || '';
+                    }
+                }, this);
+            }
 
             activeObj.set(styleObj);
 

@@ -1010,14 +1010,15 @@ class ImageEditor {
      *     @param {string} [styleObj.fontWeight] Type of thicker or thinner looking (normal / bold)
      *     @param {string} [styleObj.textAlign] Type of text align (left / center / right)
      *     @param {string} [styleObj.textDecoraiton] Type of line (underline / line-throgh / overline)
+     * @param {Boolean} notReset - reset flag
      * @returns {Promise}
      * @example
      * imageEditor.changeTextStyle(id, {
      *     fontStyle: 'italic'
      * });
      */
-    changeTextStyle(id, styleObj) {
-        return this.execute(commands.CHANGE_TEXT_STYLE, id, styleObj);
+    changeTextStyle(id, styleObj, notReset) {
+        return this.execute(commands.CHANGE_TEXT_STYLE, id, styleObj, notReset);
     }
 
     /**
