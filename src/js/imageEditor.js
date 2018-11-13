@@ -94,7 +94,8 @@ class ImageEditor {
                 cssMaxWidth: options.cssMaxWidth,
                 cssMaxHeight: options.cssMaxHeight,
                 useItext: !!this.ui,
-                useDragAddIcon: !!this.ui
+                useDragAddIcon: !!this.ui,
+                noSelector: options.noSelector || false
             }
         );
 

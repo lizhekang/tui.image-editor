@@ -55,7 +55,8 @@ class Graphics {
         cssMaxWidth,
         cssMaxHeight,
         useItext = false,
-        useDragAddIcon = false
+        useDragAddIcon = false,
+        noSelector = false
     } = {}) {
         /**
          * Fabric image instance
@@ -86,6 +87,12 @@ class Graphics {
          * @type {boolean}
          */
         this.useDragAddIcon = useDragAddIcon;
+
+        /**
+         * option for group selector
+         * @type {boolean}
+         */
+        this.noSelector = noSelector;
 
         /**
          * cropper Selection Style
@@ -783,7 +790,8 @@ class Graphics {
 
         this._canvas = new fabric.Canvas(canvasElement, {
             containerClass: 'tui-image-editor-canvas-container',
-            enableRetinaScaling: false
+            enableRetinaScaling: false,
+            noSelector: this.noSelector
         });
     }
 

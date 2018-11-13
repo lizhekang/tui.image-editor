@@ -109,7 +109,8 @@ var imageEditor = new tui.ImageEditor('.tui-image-editor', {
     selectionStyle: {
         cornerSize: 20,
         rotatingPointOffset: 70
-    }
+    },
+    noSelector: true
 });
 
 // Color picker for free drawing
