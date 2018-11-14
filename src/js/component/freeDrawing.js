@@ -52,6 +52,9 @@ class FreeDrawing extends Component {
 
         if (isMosaic) {
             brush.blocksize = setting.blocksize || 10;
+            if (setting.isNew) {
+                brush.mosaicSign = new Date().getTime();
+            }
         }
 
         this.width = setting.width || this.width;

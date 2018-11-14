@@ -552,6 +552,7 @@ $selectLine.on('change', function() {
     } else if(mode === 'mosaicDrawing') {
         settings.mosaic = true;
         settings.blocksize = 10;
+        settings.isNew = true;
         imageEditor.startDrawingMode('FREE_DRAWING', settings);
     } else {
         imageEditor.startDrawingMode('LINE_DRAWING', settings);
