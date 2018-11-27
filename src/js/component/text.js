@@ -77,6 +77,10 @@ class Text extends Component {
          */
         this._selectedObj = {};
 
+        this._movingObj = {};
+
+        this._isMoving = false;
+
         /**
          * Editing text object
          * @type {Object}
@@ -123,6 +127,8 @@ class Text extends Component {
          * @type {boolean}
          */
         this.isPrevEditing = false;
+
+        this.readyToEdit = false;
 
         /**
          * use itext
@@ -232,7 +238,7 @@ class Text extends Component {
             if (options.styles) {
                 styles = snippet.extend(styles, options.styles);
             }
-            styles.cornerSize = options.conrnerSize || 24;
+            styles.cornerSize = options.cornerSize || 24;
 
             if (this.useItext) {
                 newText = new fabric.IText(text, styles);
@@ -243,7 +249,7 @@ class Text extends Component {
             } else {
                 newText = new fabric.Text(text, styles);
                 newText.setControlsVisibility({
-                    br: false,
+                    bl: false,
                     mb: false,
                     ml: false,
                     mr: false,
@@ -254,7 +260,8 @@ class Text extends Component {
 
             newText.set(selectionStyle);
             newText.on({
-                mouseup: this._onFabricMouseUp.bind(this)
+                mouseup: this._onFabricMouseUp.bind(this),
+                moving: this._onFabricMoving.bind(this)
             });
 
             canvas.add(newText);
@@ -339,6 +346,24 @@ class Text extends Component {
     setSelectedInfo(obj, state) {
         this._selectedObj = obj;
         this._isSelected = state;
+    }
+
+    /**
+     * Set infos of current moving object
+     * @param {fabric.Text} obj - Current moving text object
+     * @param {boolean} state - State of moving
+     */
+    setMovingInfo(obj, state) {
+        this._movingObj = obj;
+        this._isMoving = state;
+    }
+
+    /**
+     * get moving state
+     * @returns {boolean} state - State of moving
+     */
+    isMoving() {
+        return this._isMoving;
     }
 
     /**
@@ -571,7 +596,14 @@ class Text extends Component {
     _onFabricMouseDown(fEvent) {
         const obj = fEvent.target;
 
+        if (obj !== this._selectedObj) {
+            this._selectedObj.readyToEdit = false;
+            this._selectedObj = {};
+        }
+
         if (obj && !obj.isType('text')) {
+            this._selectedObj.readyToEdit = false;
+
             return;
         }
 
@@ -609,21 +641,28 @@ class Text extends Component {
     }
 
     /**
+     * Fabric objectMoving event handler
+     * @param {fabric.Event} fEvent - Current mousedown event on selected object
+     * @private
+     */
+    _onFabricMoving(fEvent) {
+        this.setMovingInfo(fEvent.target, true);
+    }
+
+    /**
      * Fabric mouseup event handler
      * @param {fabric.Event} fEvent - Current mousedown event on selected object
      * @private
      */
     _onFabricMouseUp(fEvent) {
-        const newClickTime = (new Date()).getTime();
-
-        if (this._isDoubleClick(newClickTime)) {
-            if (!this.useItext) {
-                // this._changeToEditingMode(fEvent.target);
+        if (!this.isMoving()) {
+            if (this._selectedObj.__fe_id === fEvent.target.__fe_id && this._selectedObj.readyToEdit) {
+                this.fire(events.TEXT_EDITING, fEvent.target); // fire editing text event with target
+            } else {
+                this._selectedObj.readyToEdit = true;
             }
-            this.fire(events.TEXT_EDITING, fEvent.target); // fire editing text event with target
         }
-
-        this._lastClickTime = newClickTime;
+        this.setMovingInfo(fEvent.target, false);
     }
 
     /**
