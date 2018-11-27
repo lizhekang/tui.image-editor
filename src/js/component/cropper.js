@@ -99,6 +99,8 @@ class Cropper extends Component {
         canvas.selection = false;
         canvas.defaultCursor = 'crosshair';
 
+        canvas.setActiveObject(this._cropzone);
+
         fabric.util.addListener(document, 'keydown', this._listeners.keydown);
         fabric.util.addListener(document, 'keyup', this._listeners.keyup);
     }
