@@ -270,6 +270,9 @@ class Text extends Component {
 
             if (!canvas.getActiveObject()) {
                 canvas.setActiveObject(newText);
+                if (options.initEdit) {
+                    newText.readyToEdit = true;
+                }
             }
 
             this.isPrevEditing = true;
