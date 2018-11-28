@@ -261,7 +261,9 @@ class Text extends Component {
             newText.set(selectionStyle);
             newText.on({
                 mouseup: this._onFabricMouseUp.bind(this),
-                moving: this._onFabricMoving.bind(this)
+                moving: this._onFabricMoving.bind(this),
+                rotating: this._onFabricMoving.bind(this), // 当做移动统一处理
+                scaling: this._onFabricMoving.bind(this) // 当做移动统一处理
             });
 
             canvas.add(newText);
