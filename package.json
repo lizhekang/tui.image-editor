@@ -1,7 +1,7 @@
 {
   "name": "tui-image-editor.upgrade",
   "author": "lizhekang <lizhekang@hotmail.com>",
-  "version": "3.2.3-rc.27",
+  "version": "3.2.3-rc.28",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -63,7 +63,7 @@
     "serve": "webpack-dev-server --inline --hot -d",
     "cpy-dist2doc": "mkdir -p doc/dist && cp -f -r dist doc",
     "doc": "jsdoc -c jsdoc.conf.json && npm run cpy-dist2doc",
-    "postinstall": "npm install --no-save --no-optional fabric.upgrade@~1.6.7-rc.15"
+    "postinstall": "npm install --no-save --no-optional fabric.upgrade@~1.6.7-rc.16"
   },
   "dependencies": {
     "core-js": "2.4.1",
