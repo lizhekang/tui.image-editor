@@ -571,10 +571,11 @@ class Text extends Component {
      * @private
      */
     _onFabricScaling(fEvent) {
-        const obj = fEvent.target;
-        const scalingSize = obj.getFontSize() * obj.getScaleY();
+        const obj = fEvent.target;  // eslint-disable-line
+        // const obj = fEvent.target;
+        // const scalingSize = obj.getFontSize() * obj.getScaleY();
 
-        obj.setFontSize(scalingSize);
+        // obj.setFontSize(scalingSize);
         // obj.setScaleX(1);
         // obj.setScaleY(1);
     }
