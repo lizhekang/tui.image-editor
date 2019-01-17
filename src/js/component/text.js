@@ -269,7 +269,24 @@ class Text extends Component {
             canvas.add(newText);
 
             if (!canvas.getActiveObject()) {
-                canvas.setActiveObject(newText);
+                if (styles.outerDecoration) {
+                    newText.on('render:success', renderHandler);
+                } else {
+                    canvas.setActiveObject(newText);
+
+                    if (options.initEdit) {
+                        newText.readyToEdit = true;
+                    }
+                }
+            }
+
+            function renderHandler() {
+                newText.off('render:success', renderHandler);
+                // 等待newText渲染结束
+                setTimeout(() => {
+                    canvas.setActiveObject(newText);
+                }, 100);
+
                 if (options.initEdit) {
                     newText.readyToEdit = true;
                 }
@@ -558,8 +575,8 @@ class Text extends Component {
         const scalingSize = obj.getFontSize() * obj.getScaleY();
 
         obj.setFontSize(scalingSize);
-        obj.setScaleX(1);
-        obj.setScaleY(1);
+        // obj.setScaleX(1);
+        // obj.setScaleY(1);
     }
 
     /**
